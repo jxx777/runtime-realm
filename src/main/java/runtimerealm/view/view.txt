@@ -1,0 +1,143 @@
+package runtimerealm.view;
+
+import static runtimerealm.utils.Utils.sleep;
+
+
+public class Animations {
+    public static void animateLine(int lineLength, String symbol, int milliseconds) {
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print(symbol + " ");
+            sleep(milliseconds);
+        }
+        getConsolePrompt();
+    }
+
+    static void animateText(String text, int milliseconds) {
+        for (char c : text.toCharArray()) {
+            System.out.print(c);
+            sleep(milliseconds);
+        }
+        getConsolePrompt();
+    }
+}package runtimerealm.view;
+
+import runtimerealm.model.Combatant;
+import runtimerealm.model.characters.Character;
+
+public class BattlePrompt {
+    public static void versusIntroduction(Character npc) {
+        getConsolePrompt(
+                "You have ventured into the Arena! " +
+                        "\nOpponent: " +
+                        npc + " (" + npc.getClass().getSimpleName() + ")"
+        );
+        getConsolePrompt("⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯");
+    }
+
+    public static void displayAttack(Combatant self, Combatant target, double damage) {
+        String effectiveness = damage >= 20 ? " CRITICAL"
+                : damage <= 5 ? " (light hit)."
+                : damage <= 10 ? " (moderate hit)."
+                : damage <= 15 ? " (heavy hit)."
+                : " (devastating hit).";
+
+        System.out.print("⚔️ " + self.getName() + " attacks " + target.getName() + " for " + damage + " damage" + effectiveness);
+        getConsolePrompt();
+    }
+
+    public static String actionPrompt(Character player, Character npc) {
+        StringBuilder prompt = new StringBuilder("\nChoose your action:\n");
+
+        // Add dynamic elements based on the game state
+        if (player.getHealth() < player.getMaxHealth() * 0.3) {
+            prompt.append("  💀 You are critically wounded! Consider defending or using a defensive ability.\n");
+        }
+        if (npc.getHealth() < npc.getMaxHealth() * 0.3) {
+            prompt.append("  🎯 Enemy is weak! Maybe it's time for a finishing move?\n");
+        }
+
+        // Standard action choices
+        prompt
+                .append("  ⚔️ Attack (A)\n  🛡️ Defend (D)\n  🌟 Use Special Ability:\n")
+                .append("    - Offense (CO)\n    - Defense (CD)\n")
+                .append("\nEnter your choice: ");
+
+        return prompt.toString();
+    }
+}package runtimerealm.view;
+
+import runtimerealm.model.characters.Character;
+
+import static runtimerealm.view.Animations.animateLine;
+import static runtimerealm.view.Animations.animateText;
+
+public class ConclusionDisplay {
+    public static void fightConclusion(Character player, Character npc) {
+        if (player.isAlive()) {
+            animateLine(25, "🏆", 50);
+            getConsolePrompt("\n🏆 Congratulations! You have triumphed over " + npc.getName() + ".");
+            animateText("You stand victorious as your foe lies defeated.", 100);
+        } else {
+            animateLine(25, "☠️", 50);
+            getConsolePrompt("\n☠️ Alas, you have been vanquished by " + npc.getName() + ".");
+            animateText("As darkness closes in, you ponder your defeat...", 100);
+        }
+    }
+}
+package runtimerealm.view;
+
+import runtimerealm.model.characters.Character;
+import runtimerealm.utils.Color;
+
+public class HealthDisplay {
+    static String getHealthColor(int currentHealth, int maxHealth) {
+        double healthRatio = (double) currentHealth / maxHealth;
+        if (healthRatio < 0.25) return Color.RED.getCode();
+        else if (healthRatio < 0.5) return Color.YELLOW.getCode();
+        else return Color.GREEN.getCode();
+    }
+
+    public static void displayHealthBar(int currentHealth, int maxHealth) {
+        int barLength = 20; // Length of the health bar
+        int healthPortion = (int) (((double) currentHealth / maxHealth) * barLength);
+        healthPortion = Math.max(0, healthPortion); // Ensure healthPortion is not negative
+
+        String healthBar = "[" + "=".repeat(healthPortion) + " ".repeat(barLength - healthPortion) + "]";
+        String color = getHealthColor(currentHealth, maxHealth);
+        getConsolePrompt(color + healthBar + " " + Math.max(0, currentHealth) + "/" + maxHealth + Color.RESET.getCode());
+    }
+
+    public static void healthStatus(Character player, Character npc) {
+        System.out.print(player.getName() + " health 💖: ");
+        displayHealthBar(player.getHealth(), player.getMaxHealth());
+        System.out.print(npc.getName() + " health 💀: ");
+        displayHealthBar(npc.getHealth(), npc.getMaxHealth());
+    }
+}package runtimerealm.view;
+
+import static runtimerealm.utils.Color.*;
+
+public class MenuDisplay {
+    public static void displayGameChoices() {
+
+        getConsolePrompt("DEVELOPER NOTES");
+        getConsolePrompt(YELLOW.colorize("NOTE: Yellow color: buggy / not implemented properly yet"));
+        getConsolePrompt(RED.colorize("NOTE: Red color: not implemented at all"));
+        getConsolePrompt("--------------------");
+
+        getConsolePrompt("Where would you like to next?");
+        getConsolePrompt(RESET.underline("\nTHE ARENA - Wacky RNG battles"));
+        getConsolePrompt("1. Arena versus NPC");
+        getConsolePrompt(YELLOW.colorize("2. Arena versus Player (PVP)"));
+
+        getConsolePrompt(RESET.underline("\nThe Runtime Realm"));
+        getConsolePrompt("3. Explore the world (COMING SOON, at some point...)");
+
+        getConsolePrompt("--------------------");
+        getConsolePrompt("9. Toggle Sound");
+        getConsolePrompt("0. Exit Game");
+    }
+}package runtimerealm.view;
+
+public class SettingsMenu {
+}
