@@ -38,11 +38,7 @@ build/
 .DS_Store
 
 ### Sounds ###
-src/main/java/runtimerealm/assets/sounds/atmosphere/arena_screen.wav
-src/main/java/runtimerealm/assets/sounds/atmosphere/main_screen.wav
-
-/src/main/runtimerealm/assets/sounds/dialog/*.wav
-/src/main/runtimerealm/assets/sounds/oneshots/*.wav
-/src/main/runtimerealm/assets/sounds/atmosphere/*.flac
-/src/main/runtimerealm/assets/sounds/dialog/*.flac
-/src/main/runtimerealm/assets/sounds/oneshots/*.flac
+/src/main/java/runtimerealm/assets/sounds/atmosphere/arena_screen.wav
+/src/main/java/runtimerealm/assets/sounds/atmosphere/main_screen.wav
+/src/main/java/runtimerealm/assets/sounds/dialog/narrator_intro.wav
+/src/main/java/runtimerealm/assets/sounds/oneshots/sword_hit.wav

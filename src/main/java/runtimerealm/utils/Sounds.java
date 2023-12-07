@@ -16,7 +16,7 @@ public class Sounds {
     private static Clip currentClip = null;
 
     // Static initializer to set up sound paths
-    // Follow the package structure
+    // Follow the package structure - Do note these will have to be created locally as I've not included the soundfiles
     static {
         // Atmosphere sounds
         soundMap.put("main_screen", "src/main/java/runtimerealm/assets/sounds/atmosphere/main_screen.wav");
